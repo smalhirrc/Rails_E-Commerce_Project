@@ -65,11 +65,11 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem 'activeadmin'
+gem "activeadmin"
 
-gem 'devise'
-gem 'cancancan'
-gem 'draper'
-gem 'pundit'
+gem "devise"
+gem "cancancan"
+gem "draper"
+gem "pundit"
 
 gem "dartsass-rails"
