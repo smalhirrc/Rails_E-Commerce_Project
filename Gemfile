@@ -74,8 +74,8 @@ gem "pundit"
 
 gem "dartsass-rails"
 
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'nokogiri', '~> 1.19.4'
+gem "nokogiri", "~> 1.19.4"
 
-gem 'faker'
+gem "faker"
