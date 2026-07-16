@@ -73,3 +73,9 @@ gem "draper"
 gem "pundit"
 
 gem "dartsass-rails"
+
+source 'https://rubygems.org'
+
+gem 'nokogiri', '~> 1.19.4'
+
+gem 'faker'
