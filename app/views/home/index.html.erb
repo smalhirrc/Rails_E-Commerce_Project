@@ -18,7 +18,7 @@
 
         <div class="product-info">
           <% if product.category.present? %>
-            <span class="category-badge"><%= product.category.name %></span>
+            <%= link_to product.category.name, category_path(product.category), class: "category-badge" %>
           <% end %>
           <h2 class="product-name"><%= product.name %></h2>
           <p class="product-price"><%= number_to_currency(product.price) %></p>

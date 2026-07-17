@@ -1,0 +1,45 @@
+<div class="category-browse-container">
+  <aside class="category-sidebar">
+    <h3>Browse Categories</h3>
+    <ul>
+      <li>
+        <%= link_to "All Products", root_path, class: ("active" if current_page?(root_path)) %>
+      </li>
+      <% @categories.each do |cat| %>
+        <li>
+          <%= link_to cat.name, category_path(cat), class: ("active" if @category == cat) %>
+        </li>
+      <% end %>
+    </ul>
+  </aside>
+  <hr>
+  <main class="category-content">
+    <header class="category-header">
+      <h2>Category: <%= @category.name %></h2>
+      <p>Displaying <%= pluralize(@products.count, 'product') %> found</p>
+    </header>
+        <hr>
+    <div class="product-grid">
+      <% if @products.any? %>
+        <% @products.each do |product| %>
+          <article class="product-card">
+            <div class="product-image-wrapper">
+              <% if product.image.attached? %>
+                <%= image_tag url_for(product.image), alt: product.name, class: "product-image" %>
+              <% else %>
+                <div class="no-image-placeholder">No Image Available</div>
+              <% end %>
+            </div>
+            <div class="product-info">
+              <h4 class="product-name"><%= product.name %></h4>
+              <p class="product-price"><%= number_to_currency(product.price) %></p>
+            </div>
+          </article>
+          <hr>
+        <% end %>
+      <% else %>
+        <p class="no-products-message">No products are currently available in this category.</p>
+      <% end %>
+    </div>
+  </main>
+</div>

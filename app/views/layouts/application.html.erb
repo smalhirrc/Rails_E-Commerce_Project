@@ -24,6 +24,11 @@
   </head>
 
   <body>
+  <nav style="background: #333; padding: 1rem 2rem; display: flex; gap: 1.5rem;">
+      <%= link_to "Home Shop", root_path, style: "color: white; text-decoration: none; font-weight: bold;" %>
+      <%= link_to "About Us", about_path, style: "color: #ccc; text-decoration: none;" %>
+      <%= link_to "Contact", contact_path, style: "color: #ccc; text-decoration: none;" %>
+    </nav>
     <%= yield %>
   </body>
 </html>
