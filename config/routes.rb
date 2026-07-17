@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "products/show"
   get "categories/show"
   get "home/index"
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -11,7 +12,8 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :categories
-
+  resources :products
+  
   get "up" => "rails/health#show", as: :rails_health_check
   get '/about', to: 'pages#show', defaults: { slug: 'about' }
   get '/contact', to: 'pages#show', defaults: { slug: 'contact' }

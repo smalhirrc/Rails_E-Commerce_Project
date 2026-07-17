@@ -1,0 +1,36 @@
+<div class="product-detail-container">
+  <div class="back-navigation">
+    <%= link_to "Back to Shop", root_path, class: "back-link" %>
+  </div>
+
+  <div class="product-detail-layout">
+    <div class="product-detail-image-section">
+      <% if @product.image.attached? %>
+        <%= image_tag url_for(@product.image), alt: @product.name, class: "detail-image" %>
+      <% else %>
+        <div class="detail-no-image-placeholder">No Image Available</div>
+      <% end %>
+    </div>
+
+    <div class="product-detail-info-section">
+      <% if @product.category.present? %>
+        <%= link_to @product.category.name, category_path(@product.category), class: "detail-category-badge" %>
+      <% end %>
+
+      <h1 class="detail-product-name"><%= @product.name %></h1>
+      <p class="detail-product-price"><%= number_to_currency(@product.price) %></p>
+
+      <div class="product-meta-table">
+        <div class="meta-row">
+          <span class="meta-label">Product ID:</span>
+          <span class="meta-value">#<%= @product.id %></span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Availability:</span>
+          <span class="meta-value stock-status">In Stock</span>
+        </div>
+      </div>
+      <button class="add-to-cart-btn" onclick="alert('Added to cart mock action!')">Add to Cart</button>
+    </div>
+  </div>
+</div>
