@@ -66,3 +66,13 @@ Product.create!(name: "Empire 12-Inch True Blue Combination Square", price: 18.5
 Product.create!(name: "3M Professional Safety Glasses (Clear)", price: 14.25, category: extra_category)
 Product.create!(name: "Knipex Cobra 10-Inch Water Pump Pliers", price: 49.50, category: extra_category)
 Product.create!(name: "Wera Kraftform Plus 6-Piece Screwdriver Set", price: 39.99, category: extra_category)
+
+Page.find_or_create_by!(slug: 'about') do |p|
+  p.title = 'About Us'
+  p.content = 'Welcome to our company story...'
+end
+
+Page.find_or_create_by!(slug: 'contact') do |p|
+  p.title = 'Contact Us'
+  p.content = 'Get in touch with us via email@example.com...'
+end
