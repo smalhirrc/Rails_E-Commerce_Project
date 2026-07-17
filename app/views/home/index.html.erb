@@ -1,0 +1,29 @@
+<div class="storefront-container">
+  <header class="storefront-header">
+    <h1>Welcome to Our Shop</h1>
+    <p>Discover our latest collection of items</p>
+  </header>
+
+  <main class="product-grid">
+    <% @products.each do |product| %>
+        <hr>
+      <article class="product-card">
+        <div class="product-image-wrapper">
+          <% if product.image.attached? %>
+            <%= image_tag url_for(product.image), alt: product.name, class: "product-image" %>
+          <% else %>
+            <div class="no-image-placeholder">No Image Available</div>
+          <% end %>
+        </div>
+
+        <div class="product-info">
+          <% if product.category.present? %>
+            <span class="category-badge"><%= product.category.name %></span>
+          <% end %>
+          <h2 class="product-name"><%= product.name %></h2>
+          <p class="product-price"><%= number_to_currency(product.price) %></p>
+        </div>
+      </article>
+    <% end %>
+  </main>
+</div>
