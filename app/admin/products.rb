@@ -14,7 +14,7 @@ ActiveAdmin.register Product do
   index do
     selectable_column
     id_column
-    column :name 
+    column :name
     column :category do |product|
       product.category&.name || "Uncategorized"
     end
@@ -34,7 +34,7 @@ ActiveAdmin.register Product do
   # Form field for image
   form html: { multipart: true } do |f|
     f.inputs "Product Details" do
-      f.input :category, as: :select, collection: Category.all.map { |c| [c.name, c.id] }, include_blank: "Select Category"
+      f.input :category, as: :select, collection: Category.all.map { |c| [ c.name, c.id ] }, include_blank: "Select Category"
       f.input :name
       f.input :price
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), style: "width: 100px; height: auto;") : "No image uploaded yet"
