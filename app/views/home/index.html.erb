@@ -20,7 +20,7 @@
           <% if product.category.present? %>
             <%= link_to product.category.name, category_path(product.category) %>
           <% end %>
-          <h2><%= product.name %></h2>
+          <h2><%= link_to product.name, product_path(product) %></h2>
           <p><%= number_to_currency(product.price) %></p>
         </div>
       </article>

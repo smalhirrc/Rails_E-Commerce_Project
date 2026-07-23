@@ -1,0 +1,25 @@
+<div>
+    <% if @product.image.attached? %>
+        <div>
+            <%= image_tag url_for(@product.image), alt: @product.name %>
+        </div>
+    <% else %>
+        <div>
+            <p>No image Available</p>
+        </div>
+    <% end %>
+
+    <% if @product.category.present? %>
+        <div>
+            <p>Category: <%= link_to @product.category.name, category_path(@product.category) %></p>
+        </div>
+    <% end %>
+
+    <div>
+        <h1><%= @product.name %></h1>
+        <p><%= number_to_currency(@product.price) %></p>
+        <div>
+            <p>Product ID: <%= @product.id %><p>
+        </div>
+    </div>
+</div>
