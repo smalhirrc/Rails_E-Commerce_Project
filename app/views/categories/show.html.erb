@@ -1,0 +1,45 @@
+<div>
+    <h3>Browse Categories</h3>
+    <ul>
+        <li>
+            <%= link_to "All Products", root_path %>
+        </li>
+        <% @categories.each do |category| %>
+            <li>
+                <%= link_to category.name, category_path(category) %>
+            </li>
+        <% end %>
+    </ul>
+</div>
+
+<div>
+    <h2>Category: <%= @category.name %></h2>
+    <p>Displaying <%= pluralize(@products.size, 'product') %> found</p>
+</div>
+
+<div>
+    <% if @products.any? %>
+        <% @products.each do |product| %>
+            <article>
+                <div>
+                    <% if product.image.attached? %>
+                        <%= image_tag url_for(product.image), alt: product.name %>
+                    <% else %>
+                        <div>No Image Available</div>
+                    <% end %>
+                </div>
+                <div>
+                    <h4><%= product.name %></h4>
+                    <p><%= number_to_currency(product.price) %></p>
+                </div>
+            </article>
+            <hr>
+        <% end %>
+    <% else %>
+        <div>
+            <p>
+                No product are currently available in this category.
+            </p>
+        </div>
+    <% end %>
+</div>
