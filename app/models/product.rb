@@ -11,6 +11,6 @@ class Product < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "category_id", "created_at", "id", "name", "price", "updated_at" ]
+    [ "category_id", "created_at", "id", "name", "price", "updated_at", "on_sale" ]
   end
 end

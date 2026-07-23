@@ -4,7 +4,7 @@ ActiveAdmin.register Product do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :name, :price, :category_id, :image
+  permit_params :name, :price, :category_id, :image, :on_sale
 
   preserve_default_filters!
   remove_filter :image_attachment
@@ -28,6 +28,7 @@ ActiveAdmin.register Product do
         "No Image"
       end
     end
+    column :on_sale
     actions
   end
 
@@ -38,6 +39,7 @@ ActiveAdmin.register Product do
       f.input :name
       f.input :price
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), style: "width: 100px; height: auto;") : "No image uploaded yet"
+      f.input :on_sale
     end
     f.actions
   end
@@ -58,6 +60,7 @@ ActiveAdmin.register Product do
           "No image uploaded"
         end
       end
+      row :on_sale
     end
     active_admin_comments
   end
