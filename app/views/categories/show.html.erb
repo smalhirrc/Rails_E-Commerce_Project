@@ -17,6 +17,12 @@
     <p>Displaying <%= pluralize(@products.size, 'product') %> found</p>
 </div>
 
+<hr>
+
+<div>
+    <%= paginate @products %>
+</div>
+
 <div>
     <% if @products.any? %>
         <% @products.each do |product| %>

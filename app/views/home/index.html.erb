@@ -5,6 +5,9 @@
   </header>
 
   <main>
+    <div>
+      <%= paginate @products %>
+    </div>
     <% @products.each do |product| %>
       <hr>
       <article>
