@@ -1,0 +1,20 @@
+<div>
+    <h1>Search result for: "<%= params[:search] %>"</h1>
+    <div>
+        <%= paginate @products %>
+    </div>
+        <% @products.each do |product| %>
+            <% if product.image.attached? %>
+                <div>
+                    <%= image_tag url_for(product_image), alt: product.name %>
+                </div>
+            <% else %>
+                <div>
+                    <p>No Image Available</p>
+                </div>
+            <% end %>
+            <h2><%= link_to product.name, product_path(product) %></h2>
+            <p>Category: <%= product.category.name %></p>
+            <hr>
+        <% end %>
+</div>

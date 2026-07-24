@@ -4,6 +4,14 @@
     <p>Discover our latest collection of items</p>
   </header>
 
+<div>
+  <%= form_with url: products_path, method: :get, local: true do |form| %>
+    <%= form.text_field :search %>
+    <%= form.collection_select :category_id, Category.all, :id, :name, { include_blank: "Select a Category" } %>
+    <%= form.submit "Search" %>
+  <% end %>
+</div>
+
   <main>
     <div>
       <%= paginate @products %>
