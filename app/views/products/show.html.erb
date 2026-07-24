@@ -22,5 +22,8 @@
             <p>Product ID: <%= @product.id %><p>
         </div>
     </div>
-    <button onclick="alert('Added to cart mock action!')">Add to Cart</button>
+    <%= form_with url: "/cart/add/#{@product.id}", method: :post do |form| %>
+        <%= form.number_field :quantity, value: 1, min: 1 %>
+        <%= form.submit "Add to Cart" %>
+    <% end %>
 </div>

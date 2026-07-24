@@ -1,0 +1,11 @@
+<hr>
+<% @cart.each do |product_id, quantity| %>
+    <h3><%= Product.find(product_id).name %></h3>
+    <p>Quantity: <%= quantity %></p>
+    <%= form_with url: "/edit_cart/#{product_id}", method: :post do |form| %>
+        <%= form.text_field :new_quantity %>
+        <%= form.submit "Change Quantity" %>
+    <% end %>
+    <%= button_to "Remove Item", "/cart/remove/#{product_id}" %>
+    <hr>
+<% end %>
