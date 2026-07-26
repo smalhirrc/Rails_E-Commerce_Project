@@ -1,5 +1,5 @@
 <div>
-    <h1>Search result for: "<%= params[:search] %>"</h1>
+    <h1>Search result for: "<%= params[:search] %>" <%= "in #{@category.name}" if @category&.name.present? %></h1>
     <div>
         <%= paginate @products %>
     </div>
