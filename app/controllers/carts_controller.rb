@@ -62,7 +62,7 @@ class CartsController < ApplicationController
                 session[:cart] = {}
 
                 redirect_to "/cart/order/#{@order.id}" and return
-                
+
             rescue ActiveRecord::RecordInvalid => e
                 flash.now[:alert] = e.message
                 render :checkout, status: :unprocessable_entity and return

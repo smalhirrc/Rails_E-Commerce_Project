@@ -87,7 +87,7 @@ provinces = [
     { name: "Ontario", tax: 0.130 },
     { name: "Prince Edward Island", tax: 0.150 },
     { name: "Quebec", tax: 0.14975 },
-    { name: "Saskatchewan", tax: 0.110 },
+    { name: "Saskatchewan", tax: 0.110 }
 ]
 
 provinces.each do |province|
