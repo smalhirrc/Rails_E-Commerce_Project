@@ -1,0 +1,61 @@
+<% if flash[:alert] %>
+  <div class="error_message">
+    <strong>Error processing checkout:</strong> <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<div id="checkout_form">
+    <%= form_with url: "/cart/checkout", method: :post, id: "order_form" do |form| %>
+        <fieldset>
+            <legend>Personal Infomation</legend>
+                <ul>
+                    <li>
+                        <%= form.label :customer_name, "Name: " %>
+                        <%= form.text_field :customer_name %>
+                    </li>
+                    <li>
+                        <%= form.label :customer_email, "Email: " %>
+                        <%= form.email_field :customer_email %>
+                    </li>
+                    <li>
+                        <%= form.label :customer_phone_number, "Phone Number: " %>
+                        <%= form.phone_field :customer_phone_number %>
+                    </li>
+                    <li>
+                        <%= form.label :customer_province_id, "Province: " %>
+                        <%= form.collection_select :customer_province_id, @provinces, :id, :name, {include_blank: "Select a Province"} %>
+                    </li>
+                    <li>
+                        <%= form.label :customer_street_address, "Street Address" %>
+                        <%= form.text_field :customer_street_address %>
+                    </li>
+                    <li>
+                        <%= form.label :customer_city, "City" %>
+                        <%= form.text_field :customer_city %>
+                    </li>
+                    <li>
+                        <%= form.label :customer_postal_code, "Postal Code" %>
+                        <%= form.text_field :customer_postal_code %>
+                    </li>
+                </ul>
+        </fieldset>
+        <fieldset>
+            <legend>Card Information</legend>
+                <ul>
+                    <li>
+                        <%= form.label :name_on_card, "Name on Card: " %>
+                        <%= form.text_field :name_on_card %>
+                    </li>
+                    <li>
+                        <%= form.label :card_number, "Card Number: " %>
+                        <%= form.text_field :card_number %>
+                    </li>
+                    <li>
+                        <%= form.label :card_expiry, "Card Expiry Date: " %>
+                        <%= form.date_field :card_expiry %>
+                    </li>
+                </ul>
+        </fieldset>
+        <%= form.submit "Place Order"%>
+    <% end %>
+</div>

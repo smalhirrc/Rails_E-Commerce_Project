@@ -9,70 +9,89 @@
 #   end
 # AdminUser.find_or_create_by!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
 
-require 'rubygems'
-require 'bundler/setup'
-require 'open-uri'
-require 'nokogiri'
-require 'faker'
+# require 'rubygems'
+# require 'bundler/setup'
+# require 'open-uri'
+# require 'nokogiri'
+# require 'faker'
 
-Product.destroy_all
-Category.destroy_all
+# Product.destroy_all
+# Category.destroy_all
 
-url = 'https://www.canadianwoodworker.com/product-category/hand-tools/'
+# url = 'https://www.canadianwoodworker.com/product-category/hand-tools/'
 
-html_content = URI.open(url)
-main_page = Nokogiri::HTML(html_content)
+# html_content = URI.open(url)
+# main_page = Nokogiri::HTML(html_content)
 
-category_links = main_page.css("ul.columns-4 li.product-category")
+# category_links = main_page.css("ul.columns-4 li.product-category")
 
-discovered_categories = []
+# discovered_categories = []
 
-category_links.each do |link|
-    discovered_categories << {
-        name: link.css("h2.woocommerce-loop-category__title").text.strip,
-        url: link.at_css("a")['href']
-    }
-end
+# category_links.each do |link|
+#     discovered_categories << {
+#         name: link.css("h2.woocommerce-loop-category__title").text.strip,
+#         url: link.at_css("a")['href']
+#     }
+# end
 
-discovered_categories.each do |category|
-    db_category = Category.find_or_create_by!(name: category[:name])
+# discovered_categories.each do |category|
+#     db_category = Category.find_or_create_by!(name: category[:name])
 
-    category_html = URI.open(category[:url])
-    category_page = Nokogiri::HTML(category_html)
+#     category_html = URI.open(category[:url])
+#     category_page = Nokogiri::HTML(category_html)
 
-    products_on_page = category_page.css('h2.woocommerce-loop-product__title')
+#     products_on_page = category_page.css('h2.woocommerce-loop-product__title')
 
-    products_on_page.each do |prod|
-        product_name = prod.text.strip
-        product_price = Faker::Number.number(digits: 2)
+#     products_on_page.each do |prod|
+#         product_name = prod.text.strip
+#         product_price = Faker::Number.number(digits: 2)
 
-        Product.create!(
-            name: product_name,
-            price: product_price,
-            category: db_category
-        )
+#         Product.create!(
+#             name: product_name,
+#             price: product_price,
+#             category: db_category
+#         )
+#     end
+# end
+
+# extra_category = Category.find_or_create_by!(name: "Safety & Accessories")
+
+# Product.create!(name: "Estwing 16oz Straight Claw Hammer", price: 44.99, category: extra_category)
+# Product.create!(name: "Stanley Classic Retractable Utility Knife", price: 11.50, category: extra_category)
+# Product.create!(name: "Channellock 10-Inch Tongue and Groove Pliers", price: 29.95, category: extra_category)
+# Product.create!(name: "Irwin QUICK-GRIP 6-Inch Bar Clamp", price: 19.99, category: extra_category)
+# Product.create!(name: "Milwaukee 25-ft Magnetic Tape Measure", price: 24.97, category: extra_category)
+# Product.create!(name: "DeWalt 12-Piece Screw Driver Set", price: 34.99, category: extra_category)
+# Product.create!(name: "Empire 12-Inch True Blue Combination Square", price: 18.50, category: extra_category)
+# Product.create!(name: "3M Professional Safety Glasses (Clear)", price: 14.25, category: extra_category)
+# Product.create!(name: "Knipex Cobra 10-Inch Water Pump Pliers", price: 49.50, category: extra_category)
+# Product.create!(name: "Wera Kraftform Plus 6-Piece Screwdriver Set", price: 39.99, category: extra_category)
+
+# Page.find_or_create_by!(slug: 'about') do |p|
+#   p.title = 'About Us'
+#   p.content = 'Welcome to our company story...'
+# end
+
+# Page.find_or_create_by!(slug: 'contact') do |p|
+#   p.title = 'Contact Us'
+#   p.content = 'Get in touch with us via email@example.com...'
+# end
+
+provinces = [
+    { name: "Alberta", tax: 0.050 },
+    { name: "British Columbia", tax: 0.120 },
+    { name: "Manitoba", tax: 0.120 },
+    { name: "New Brunswick", tax: 0.150 },
+    { name: "Newfoundland and Labrador", tax: 0.150 },
+    { name: "Nova Scotia", tax: 0.150 },
+    { name: "Ontario", tax: 0.130 },
+    { name: "Prince Edward Island", tax: 0.150 },
+    { name: "Quebec", tax: 0.14975 },
+    { name: "Saskatchewan", tax: 0.110 },
+]
+
+provinces.each do |province|
+    Province.find_or_create_by!(name: province[:name]) do |p|
+        p.tax = province[:tax]
     end
-end
-
-extra_category = Category.find_or_create_by!(name: "Safety & Accessories")
-
-Product.create!(name: "Estwing 16oz Straight Claw Hammer", price: 44.99, category: extra_category)
-Product.create!(name: "Stanley Classic Retractable Utility Knife", price: 11.50, category: extra_category)
-Product.create!(name: "Channellock 10-Inch Tongue and Groove Pliers", price: 29.95, category: extra_category)
-Product.create!(name: "Irwin QUICK-GRIP 6-Inch Bar Clamp", price: 19.99, category: extra_category)
-Product.create!(name: "Milwaukee 25-ft Magnetic Tape Measure", price: 24.97, category: extra_category)
-Product.create!(name: "DeWalt 12-Piece Screw Driver Set", price: 34.99, category: extra_category)
-Product.create!(name: "Empire 12-Inch True Blue Combination Square", price: 18.50, category: extra_category)
-Product.create!(name: "3M Professional Safety Glasses (Clear)", price: 14.25, category: extra_category)
-Product.create!(name: "Knipex Cobra 10-Inch Water Pump Pliers", price: 49.50, category: extra_category)
-Product.create!(name: "Wera Kraftform Plus 6-Piece Screwdriver Set", price: 39.99, category: extra_category)
-
-Page.find_or_create_by!(slug: 'about') do |p|
-  p.title = 'About Us'
-  p.content = 'Welcome to our company story...'
-end
-
-Page.find_or_create_by!(slug: 'contact') do |p|
-  p.title = 'Contact Us'
-  p.content = 'Get in touch with us via email@example.com...'
 end

@@ -24,8 +24,8 @@
   </head>
 
   <body>
-    <div>
-      <nav>
+    <div id="top_nav_container">
+      <nav id="top_nav">
         <ul>
           <li>
             <%= link_to "Home", root_path%>
@@ -41,6 +41,9 @@
           </li>
           <li>
             <%= link_to "New Products", "/newproducts" %>
+          </li>
+          <li>
+            <%= link_to "Go to Cart", "/cart" %>
           </li>
         </ul>
       </nav>
