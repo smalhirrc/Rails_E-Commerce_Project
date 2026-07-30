@@ -1,0 +1,53 @@
+<main>
+    <div id="signup_form_container">
+        <%= form_with url: "/signup", method: :post do |form| %>
+            <fieldset>
+                <legend>Profile</legend>
+                    <ul>
+                        <li>
+                            <%= form.label :customer_name, "Name: " %> 
+                            <%= form.text_field :customer_name %>
+                        </li>
+                        <li>
+                            <%= form.label :customer_email, "Email: " %>
+                            <%= form.email_field :customer_email %>
+                        </li>
+                        <li>
+                            <%= form.label :customer_phone, "Phone: " %>
+                            <%= form.phone_field :customer_phone %>
+                        </li>
+                        <li>
+                            <%= form.label :password, "Password: " %>
+                            <%= form.password_field :password %>
+                        </li>
+                        <li>
+                            <%= form.label :confirm_password, "Confirm Password: " %>
+                            <%= form.password_field :password %>
+                        </li>
+                    </ul>
+            </fieldset>
+            <fieldset>
+                <legend>Address</legend>
+                    <ul>
+                        <li>
+                            <%= form.label :customer_street_address , "Street Address: " %>
+                            <%= form.text_field :customer_street_address %>
+                        </li>
+                        <li>
+                            <%= form.label :customer_city, "City: " %>
+                            <%= form.text_field :customer_city %>
+                        </li>
+                        <li>
+                            <%= form.label :customer_postal_code, "Postal Code: " %>
+                            <%= form.text_field :customer_postal_code %>
+                        </li>
+                        <li>
+                            <%= form.label :customer_province, "Province: " %>
+                            <%= form.collection_select :customer_province, @provinces, :id, :name, {include_blank: "Select a Province"} %>
+                        </li>
+                    </ul>
+            </fieldset>
+            <%= button_to "Sign Up", "/signup" %>
+        <% end %>
+    </div>
+</main>
