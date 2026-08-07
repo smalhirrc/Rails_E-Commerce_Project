@@ -59,7 +59,7 @@ class HomeController < ApplicationController
 
       if user && user.valid_password?(password)
         sign_in(user)
-        
+
         redirect_to root_path, notice: "Logged in successfully. Welcome back!" and return
       else
         flash.now[:alert] = "Invalid email or password."
