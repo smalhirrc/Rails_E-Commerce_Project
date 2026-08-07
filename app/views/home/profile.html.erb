@@ -1,0 +1,50 @@
+<main>
+    <div id="profile_edit_form">
+        <%= form_with url: "/profile", method: :post do |form| %>
+            <fieldset>
+            <h3>Profile</h3>
+                <ul>
+                    <li>
+                        <%= form.label :user_name, "Name: " %>
+                        <%= form.text_field :user_name, value: User.find(@user["id"])&.customer&.name || "" %>
+                    </li>
+                    <li>
+                        <%= form.label :user_email, "Email: " %>
+                        <%= form.email_field :user_email, value: User.find(@user["id"])&.email || "" %>
+                    </li>
+                    <li>
+                        <%= form.label :user_phone_number, "Phone Number: " %>
+                        <%= form.phone_field :user_phone, value: User.find(@user["id"])&.customer&.phone || "" %>
+                    </li>
+                    <li>
+                        <%= form.label :province_id, "Province: " %>
+                        <%= form.collection_select :province_id, @provinces, :id, :name, { include_blank: "Select a Province", selected: User.find(@user["id"])&.customer&.province_id } %>
+                    </li>
+                </ul>
+            </fieldset>
+            <%= form.submit "Update" %>
+        <% end %>
+    </div>
+    <div id="add_address_form_container">
+        <%= form_with url: "/add_address", method: :post do |form| %>
+            <fieldset>
+                <h3>Add New Address</h3>
+                <ul>
+                    <li>
+                        <%= form.label :user_street_address, "Street Address: " %>
+                        <%= form.text_field :user_street_address, value: @user.customer&.addresses&.last&.street_address %>
+                    </li>
+                    <li>
+                        <%= form.label :user_city, "City: " %>
+                        <%= form.text_field :user_city, value: @user.customer&.addresses&.last&.city %>
+                    </li>
+                    <li>
+                        <%= form.label :user_postal_code, "Postal Code: " %>
+                        <%= form.text_field :user_postal_code, value: @user.customer&.addresses&.last&.postal_code %>
+                    </li>
+                </ul>
+            </fieldset>
+            <%= form.submit "Add Address" %>
+        <% end %>
+    </div>
+</main>

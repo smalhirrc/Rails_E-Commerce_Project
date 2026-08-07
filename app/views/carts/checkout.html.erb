@@ -1,9 +1,3 @@
-<% if flash[:alert] %>
-  <div class="error_message">
-    <strong>Error processing checkout:</strong> <%= flash[:alert] %>
-  </div>
-<% end %>
-
 <div id="checkout_form">
     <%= form_with url: "/cart/checkout", method: :post, id: "order_form" do |form| %>
         <fieldset>
@@ -23,20 +17,27 @@
                     </li>
                     <li>
                         <%= form.label :customer_province_id, "Province: " %>
-                        <%= form.collection_select :customer_province_id, @provinces, :id, :name, {include_blank: "Select a Province"} %>
+                        <%= form.collection_select :customer_province_id, @provinces, :id, :name, {include_blank: "Select a Province", selected: current_user&.customer&.province_id } %>
                     </li>
-                    <li>
-                        <%= form.label :customer_street_address, "Street Address" %>
-                        <%= form.text_field :customer_street_address %>
-                    </li>
-                    <li>
-                        <%= form.label :customer_city, "City" %>
-                        <%= form.text_field :customer_city %>
-                    </li>
-                    <li>
-                        <%= form.label :customer_postal_code, "Postal Code" %>
-                        <%= form.text_field :customer_postal_code %>
-                    </li>
+                    <% if user_signed_in? %>
+                        <li>
+                            <%= form.label :address_id, "Address" %>
+                            <%= form.select :address_id, @signed_in_customer_addresses.map { |address| [address[:full_format], address[:id]] }, { include_blank: "Select an Address" } %>
+                        </li>
+                    <% else %>
+                        <li>
+                            <%= form.label :customer_street_address, "Street Address" %>
+                            <%= form.text_field :customer_street_address %>
+                        </li>
+                        <li>
+                            <%= form.label :customer_city, "City" %>
+                            <%= form.text_field :customer_city %>
+                        </li>
+                        <li>
+                            <%= form.label :customer_postal_code, "Postal Code" %>
+                            <%= form.text_field :customer_postal_code %>
+                        </li>
+                    <% end %>
                 </ul>
         </fieldset>
         <fieldset>

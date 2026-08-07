@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   get "home/index"
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -30,6 +31,15 @@ Rails.application.routes.draw do
 
   get "/signup", to: "home#signup"
   post "/signup", to: "home#signup"
+
+  get "/login", to: "home#login"
+  post "/login", to: "home#login"
+  get "/logout", to: "home#logout"
+
+  get "/profile", to: "home#profile"
+  post "/profile", to: "home#profile"
+
+  post "/add_address", to: "home#add_address"
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
