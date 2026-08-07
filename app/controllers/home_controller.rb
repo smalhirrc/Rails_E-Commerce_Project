@@ -11,18 +11,19 @@ class HomeController < ApplicationController
 
         email = params[:user_email]
         password = params[:password]
-        province = params[:province_id].to_i
+        province_id = params[:province_id].to_i
         city = params[:user_city]
         street_address = params[:user_street_address]
         postal_code = params[:user_postal_code]
 
         begin
-          @province = Province.find(province)
+          @province = Province.find(province_id)
           @customer = Customer.find_by(email: email)
 
           if @customer
             @user = User.create!(email: email) do |user|
               user.password = password
+              user.province = @province
             end
 
             @customer.update!(province: @province, user: @user)
@@ -31,6 +32,7 @@ class HomeController < ApplicationController
           else
             @user = User.create!(email: email) do |user|
               user.password = password
+              user.province = @province
             end
 
             @customer = Customer.create!(email: email, province: @province, user: @user)
