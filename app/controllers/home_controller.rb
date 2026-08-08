@@ -128,4 +128,14 @@ class HomeController < ApplicationController
     flash[:notice] = "Address added successfully!"
     redirect_to profile_path
   end
+
+  def findorders
+    if request.post?
+      @customer_id = params[:customer_id]
+
+      @orders = Order.where(customer: Customer.find(@customer_id))
+
+      render :findorders, status: :unprocessable_entity
+    end
+  end
 end
