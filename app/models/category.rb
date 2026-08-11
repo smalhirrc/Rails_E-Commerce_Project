@@ -1,7 +1,10 @@
 class Category < ApplicationRecord
     has_many :products
 
-    validates :name, presence: true, uniqueness: true
+    validates :name,
+              presence: true,
+              length: { minimum: 2, maximum: 100 },
+              uniqueness: true
 
   def self.ransackable_associations(auth_object = nil)
     [ "products" ]

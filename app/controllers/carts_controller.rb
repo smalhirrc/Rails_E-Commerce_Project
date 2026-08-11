@@ -63,32 +63,33 @@ class CartsController < ApplicationController
 
             if user_signed_in?
                 begin
-                    @customer = Customer.find_or_create_by!(
-                    email: email,
-                    name: name,
-                    phone: phone,
-                    province_id: province_id
-                    )
+                    ActiveRecord::Base.transaction do
+                        @customer = Customer.find_or_create_by!(
+                        email: email,
+                        name: name,
+                        phone: phone,
+                        province_id: province_id
+                        )
 
-                    @address = Address.find(params[:address_id])
+                        @address = Address.find(params[:address_id])
 
-                    @order = Order.create!(
-                    customer: @customer,
-                    address: @address,
-                    order_date: Time.current
-                    )
+                        @order = Order.create!(
+                        customer: @customer,
+                        address: @address,
+                        order_date: Time.current
+                        )
 
-                    @products = Product.where(id: session[:cart].keys)
+                        @products = Product.where(id: session[:cart].keys)
 
-                    @products.each do |product|
-                    OrderItem.create!(
-                        order: @order,
-                        product_id: product.id,
-                        quantity: session[:cart][product.id.to_s].to_i,
-                        price: product.price
-                    )
+                        @products.each do |product|
+                        OrderItem.create!(
+                            order: @order,
+                            product_id: product.id,
+                            quantity: session[:cart][product.id.to_s].to_i,
+                            price: product.price
+                        )
+                        end
                     end
-
                     session[:cart] = {}
 
                     redirect_to "/cart/order/#{@order.id}" and return
@@ -104,35 +105,37 @@ class CartsController < ApplicationController
                 postal_code = params[:customer_postal_code]
 
                 begin
-                    @customer = Customer.find_or_create_by!(
-                    email: email,
-                    name: name,
-                    phone: phone,
-                    province_id: province_id
-                    )
+                    ActiveRecord::Base.transaction do
+                        @customer = Customer.find_or_create_by!(
+                        email: email,
+                        name: name,
+                        phone: phone,
+                        province_id: province_id
+                        )
 
-                    @address = Address.find_or_create_by!(
-                    city: city,
-                    customer: @customer,
-                    postal_code: postal_code,
-                    street_address: street_address
-                    )
+                        @address = Address.find_or_create_by!(
+                        city: city,
+                        customer: @customer,
+                        postal_code: postal_code,
+                        street_address: street_address
+                        )
 
-                    @order = Order.create!(
-                    customer: @customer,
-                    address: @address,
-                    order_date: Time.current
-                    )
+                        @order = Order.create!(
+                        customer: @customer,
+                        address: @address,
+                        order_date: Time.current
+                        )
 
-                    @products = Product.where(id: session[:cart].keys)
+                        @products = Product.where(id: session[:cart].keys)
 
-                    @products.each do |product|
-                    OrderItem.create!(
-                        order: @order,
-                        product_id: product.id,
-                        quantity: session[:cart][product.id.to_s].to_i,
-                        price: product.price
-                    )
+                        @products.each do |product|
+                        OrderItem.create!(
+                            order: @order,
+                            product_id: product.id,
+                            quantity: session[:cart][product.id.to_s].to_i,
+                            price: product.price
+                        )
+                        end
                     end
 
                     session[:cart] = {}

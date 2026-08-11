@@ -10,6 +10,8 @@ class HomeController < ApplicationController
     if request.post?
 
         email = params[:user_email]
+        name = params[:user_name]
+        phone = params[:user_phone]
         password = params[:password]
         province_id = params[:province_id].to_i
         city = params[:user_city]
@@ -21,23 +23,27 @@ class HomeController < ApplicationController
           @customer = Customer.find_by(email: email)
 
           if @customer
-            @user = User.create!(email: email) do |user|
-              user.password = password
-              user.province = @province
-            end
+            ActiveRecord::Base.transaction do
+              @user = User.create!(email: email) do |user|
+                user.password = password
+                user.province = @province
+              end
 
-            @customer.update!(province: @province, user: @user)
+              @customer.update!(province: @province, user: @user)
 
-            @address = Address.find_or_create_by!(customer: @customer, city: city, postal_code: postal_code, street_address: street_address)
+              @address = Address.find_or_create_by!(customer: @customer, city: city, postal_code: postal_code, street_address: street_address)
+          end
           else
-            @user = User.create!(email: email) do |user|
-              user.password = password
-              user.province = @province
+            ActiveRecord::Base.transaction do
+              @user = User.create!(email: email) do |user|
+                user.password = password
+                user.province = @province
+              end
+
+              @customer = Customer.create!(email: email, name: name, phone: phone, province: @province, user: @user)
+
+              @address = Address.find_or_create_by!(customer: @customer, city: city, postal_code: postal_code, street_address: street_address)
             end
-
-            @customer = Customer.create!(email: email, province: @province, user: @user)
-
-            @address = Address.find_or_create_by!(customer: @customer, city: city, postal_code: postal_code, street_address: street_address)
           end
 
           sign_in(@user)

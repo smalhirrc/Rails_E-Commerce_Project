@@ -1,10 +1,22 @@
 class Product < ApplicationRecord
   belongs_to :category
-
-  validates :name, presence: true
-
   has_one_attached :image
-  # has_many_attached :images
+
+  validates :name,
+            presence: true,
+            length: { minimum: 2, maximum: 255 }
+
+  validates :price,
+            presence: true,
+            numericality: { greater_than_or_equal_to: 0 }
+
+  validates :on_sale,
+            inclusion: {
+              in: [ true, false ]
+            }
+
+  validates :category,
+            presence: true
 
   def self.ransackable_associations(auth_object = nil)
     [ "category_id" ]
