@@ -1,7 +1,5 @@
 ActiveAdmin.register_page "Customer Order Summaries" do
-
   content title: "Customer Order Summaries" do
-
     customers = Customer
       .joins(:orders)
       .includes(orders: { order_items: :product })
@@ -16,7 +14,6 @@ ActiveAdmin.register_page "Customer Order Summaries" do
       customers.each do |customer|
         grand_total = 0
         panel customer.name do
-
           attributes_table_for customer do
             row("Email") { customer.email }
             row("Phone") { customer.phone }
@@ -24,7 +21,6 @@ ActiveAdmin.register_page "Customer Order Summaries" do
           end
 
           table_for customer.orders.order(order_date: :desc) do
-
             column("Order ID") do |order|
               order.id
             end
@@ -58,11 +54,8 @@ ActiveAdmin.register_page "Customer Order Summaries" do
                 end
               number_to_currency(grand_total)
             end
-
           end
-
         end
-
       end
 
     end
