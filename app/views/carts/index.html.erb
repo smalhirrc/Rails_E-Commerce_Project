@@ -8,23 +8,5 @@
         <%= button_to "Go to Checkout", "/cart/checkout", method: :get %>
     </div>
 
-    <div id="shopping_cart">
-        <% @cart.each do |product_id, quantity| %>
-            <div id="shoping_cart_item">
-                <div>
-                    <h3><%= Product.find(product_id).name %></h3>
-                    <p>Quantity: <%= quantity %></p>
-                </div>
-
-                <div>
-                    <%= form_with url: "/edit_cart/#{product_id}", method: :post do |form| %>
-                        <%= form.text_field :new_quantity, value: quantity %>
-                        <%= form.submit "Change Quantity" %>
-                    <% end %>
-                    <%= button_to "Remove Item", "/cart/remove/#{product_id}" %>
-                </div>
-            </div>
-            <hr>
-        <% end %>
-    </div>
+    <%= render "carts/cart" %>
 <% end %>

@@ -1,0 +1,13 @@
+<div>
+    <h3>Browse Categories</h3>
+    <ul>
+        <li>
+            <%= link_to "All Products", root_path %>
+        </li>
+        <% @categories.each do |category| %>
+            <li>
+                <%= link_to category.name, category_path(category) %>
+            </li>
+        <% end %>
+    </ul>
+</div>

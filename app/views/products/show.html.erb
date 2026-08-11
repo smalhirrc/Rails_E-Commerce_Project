@@ -9,21 +9,9 @@
         </div>
     <% end %>
 
-    <% if @product.category.present? %>
-        <div>
-            <p>Category: <%= link_to @product.category.name, category_path(@product.category) %></p>
-        </div>
-    <% end %>
+    <%= render "products/category" %>
 
-    <div>
-        <h1><%= @product.name %></h1>
-        <p><%= number_to_currency(@product.price) %></p>
-        <div>
-            <p>Product ID: <%= @product.id %><p>
-        </div>
-    </div>
-    <%= form_with url: "/cart/add/#{@product.id}", method: :post do |form| %>
-        <%= form.number_field :quantity, value: 1, min: 1 %>
-        <%= form.submit "Add to Cart" %>
-    <% end %>
+    <%= render "products/product" %>
+
+    <%= render "products/add_to_cart" %>
 </div>

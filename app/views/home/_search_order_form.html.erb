@@ -1,0 +1,7 @@
+<%= form_with url: "/findorders", method: :post do |form| %>
+    <fieldset>
+        <%= form.label :customer_id, "Customer ID " %>
+        <%= form.text_field :customer_id, value: params[:customer_id] %>
+        </fieldset>
+    <%= form.submit "Find Orders" %>
+<% end %>

@@ -4,37 +4,15 @@
     <p>Discover our latest collection of items</p>
   </header>
 
-<div>
-  <%= form_with url: products_path, method: :get, local: true do |form| %>
-    <%= form.text_field :search %>
-    <%= form.collection_select :category_id, Category.all, :id, :name, { include_blank: "Select a Category" } %>
-    <%= form.submit "Search" %>
-  <% end %>
-</div>
+  <%= render "home/search_form" %>
 
   <main>
     <div>
       <%= paginate @products %>
     </div>
-    <% @products.each do |product| %>
-      <hr>
-      <article>
-        <div>
-          <% if product.image.attached? %>
-            <%= image_tag url_for(product.image), alt: product.name, class: "product-image" %>
-          <% else %>
-            <div class="no-image-placeholder">No Image Available</div>
-          <% end %>
-        </div>
 
-        <div>
-          <% if product.category.present? %>
-            <%= link_to product.category.name, category_path(product.category) %>
-          <% end %>
-          <h2><%= link_to product.name, product_path(product) %></h2>
-          <p><%= number_to_currency(product.price) %></p>
-        </div>
-      </article>
-    <% end %>
+    <%= render "home/products" %>
+
   </main>
+  
 </div>

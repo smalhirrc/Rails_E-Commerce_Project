@@ -1,0 +1,10 @@
+<div>
+    <h1>New Products</h1>
+    <hr>
+    <% @new_products.each do |newproduct| %>
+        <h2><%= link_to newproduct.name, product_path(newproduct) %></h2>
+        <p>Price: <%= number_to_currency(newproduct.price) %></p>
+        <p>Arrived on: <%= newproduct.created_at.strftime("%d/%m/%Y") %></p>
+        <hr>
+    <% end %>
+</div>

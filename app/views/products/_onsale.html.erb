@@ -1,0 +1,12 @@
+<div>
+    <h1>Products On Sale</h1>
+    <hr>
+    <% @on_sale.each do |onsale| %>
+        <div>
+            <p>Category: <%= link_to onsale.category.name, category_path(onsale.category) %></p>
+            <h2><strong><%= link_to onsale.name, product_path(onsale) %></strong></h2>
+            <p><%= number_to_currency(onsale.price) %></p>
+        </div>
+        <hr>
+    <% end %>
+</div>
