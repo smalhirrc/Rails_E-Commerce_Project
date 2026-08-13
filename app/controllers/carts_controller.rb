@@ -42,7 +42,7 @@ class CartsController < ApplicationController
 
         if user_signed_in?
             @user = current_user
-            @addresses = @user.customer.addresses
+            @addresses = @user.customer.addresses || []
 
             @signed_in_customer_addresses = @addresses.map do |address|
             {
@@ -61,25 +61,35 @@ class CartsController < ApplicationController
             phone = params[:customer_phone_number]
             province_id = params[:customer_province_id]
 
+            @products = Product.where(id: session[:cart].keys)
+
             if user_signed_in?
                 begin
                     ActiveRecord::Base.transaction do
-                        @customer = Customer.find_or_create_by!(
-                        email: email,
-                        name: name,
-                        phone: phone,
-                        province_id: province_id
-                        )
+                        @customer = Customer.find_or_create_by!(email: email) do |customer|
+                            customer.name = name
+                            customer.phone = phone
+                            customer.province_id = province_id
+                            customer.user_id = @user.id
+                        end
 
                         @address = Address.find(params[:address_id])
+
+                        sub_total = 0
+                        @products.each do |product|
+                            quantity = session[:cart][product.id.to_s].to_i
+                            sub_total += product.price * quantity
+                        end
+                        tax_rate = @customer.province.tax
+                        grand_total = sub_total + (sub_total * tax_rate)
 
                         @order = Order.create!(
                         customer: @customer,
                         address: @address,
-                        order_date: Time.current
+                        order_date: Time.current,
+                        tax_rate: tax_rate,
+                        total_price: grand_total
                         )
-
-                        @products = Product.where(id: session[:cart].keys)
 
                         @products.each do |product|
                         OrderItem.create!(
@@ -95,7 +105,7 @@ class CartsController < ApplicationController
                     redirect_to "/cart/order/#{@order.id}" and return
 
                 rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
-                    flash.now[:alert] = e.message
+                    flash.now[:alert] = e.message.gsub("Validation failed: ", "").split(", ").join("<br>").html_safe
                     render :checkout, status: :unprocessable_entity and return
                 end
 
@@ -106,11 +116,11 @@ class CartsController < ApplicationController
 
                 begin
                     ActiveRecord::Base.transaction do
-                        @customer = Customer.find_or_create_by!(
-                        email: email,
-                        name: name,
-                        phone: phone,
-                        province_id: province_id
+                        @customer = Customer.find_or_initialize_by(email: email)
+                        @customer.update!(
+                            name: name,
+                            phone: phone,
+                            province_id: province_id
                         )
 
                         @address = Address.find_or_create_by!(
@@ -120,13 +130,22 @@ class CartsController < ApplicationController
                         street_address: street_address
                         )
 
+                        subtotal = 0
+                        @products.each do |product|
+                            quantity = session[:cart][product.id.to_s].to_i
+                            subtotal += product.price * quantity
+                        end
+
+                        tax_rate = @customer.province.tax
+                        grand_total = subtotal + (subtotal * tax_rate)
+
                         @order = Order.create!(
                         customer: @customer,
                         address: @address,
-                        order_date: Time.current
+                        order_date: Time.current,
+                        tax_rate: tax_rate,
+                        total_price: grand_total
                         )
-
-                        @products = Product.where(id: session[:cart].keys)
 
                         @products.each do |product|
                         OrderItem.create!(
@@ -143,7 +162,7 @@ class CartsController < ApplicationController
                     redirect_to "/cart/order/#{@order.id}" and return
 
                 rescue ActiveRecord::RecordInvalid => e
-                    flash.now[:alert] = e.message
+                    flash.now[:alert] = e.message.gsub("Validation failed: ", "").split(", ").join("<br>").html_safe
                     render :checkout, status: :unprocessable_entity and return
                 end
             end

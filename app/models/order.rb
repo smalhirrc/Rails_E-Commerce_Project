@@ -12,4 +12,16 @@ class Order < ApplicationRecord
 
   validates :order_date,
             presence: true
+
+  validates :tax_rate,
+            presence: true,
+            numericality: {
+              greater_than_or_equal_to: 0
+            }
+
+  validates :total_price,
+            presence: true,
+            numericality: {
+              greater_than_or_equal_to: 0
+            }
 end

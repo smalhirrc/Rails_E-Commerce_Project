@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_07_080717) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_12_083643) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.integer "author_id"
     t.string "author_type"
@@ -109,6 +109,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_07_080717) do
     t.datetime "created_at", null: false
     t.integer "customer_id", null: false
     t.date "order_date"
+    t.decimal "tax_rate"
+    t.decimal "total_price"
     t.datetime "updated_at", null: false
     t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"

@@ -4,19 +4,19 @@
             <ul>
                 <li>
                     <%= form.label :customer_name, "Name: " %>
-                    <%= form.text_field :customer_name %>
+                    <%= form.text_field :customer_name, value: current_user&.customer&.name || params[:customer_name] %>
                 </li>
                 <li>
                     <%= form.label :customer_email, "Email: " %>
-                    <%= form.email_field :customer_email %>
+                    <%= form.email_field :customer_email, value: current_user&.email || params[:customer_email] %>
                 </li>
                 <li>
                     <%= form.label :customer_phone_number, "Phone Number: " %>
-                    <%= form.phone_field :customer_phone_number %>
+                    <%= form.phone_field :customer_phone_number, value: current_user&.customer&.phone || params[:customer_phone_number] %>
                 </li>
                 <li>
                     <%= form.label :customer_province_id, "Province: " %>
-                    <%= form.collection_select :customer_province_id, @provinces, :id, :name, {include_blank: "Select a Province", selected: current_user&.customer&.province_id } %>
+                    <%= form.collection_select :customer_province_id, @provinces, :id, :name, {include_blank: "Select a Province", selected: current_user&.customer&.province_id || params[:customer_province_id] } %>
                 </li>
                 <% if user_signed_in? %>
                     <li>
@@ -26,15 +26,15 @@
                 <% else %>
                     <li>
                         <%= form.label :customer_street_address, "Street Address" %>
-                        <%= form.text_field :customer_street_address %>
+                        <%= form.text_field :customer_street_address, value: params[:customer_street_address] %>
                     </li>
                     <li>
                         <%= form.label :customer_city, "City" %>
-                        <%= form.text_field :customer_city %>
+                        <%= form.text_field :customer_city, value: params[:customer_city] %>
                     </li>
                     <li>
                         <%= form.label :customer_postal_code, "Postal Code" %>
-                        <%= form.text_field :customer_postal_code %>
+                        <%= form.text_field :customer_postal_code, value: params[:customer_postal_code] %>
                     </li>
                 <% end %>
             </ul>
