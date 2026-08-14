@@ -80,15 +80,23 @@ class CartsController < ApplicationController
                             quantity = session[:cart][product.id.to_s].to_i
                             sub_total += product.price * quantity
                         end
-                        tax_rate = @customer.province.tax
-                        grand_total = sub_total + (sub_total * tax_rate)
+
+                        gst = @customer.province.gst
+                        pst = @customer.province.pst
+                        hst = @customer.province.hst
+
+                        tax_rate = gst + pst + hst 
+                        grand_total = subtotal + (subtotal * tax_rate)
 
                         @order = Order.create!(
                         customer: @customer,
                         address: @address,
                         order_date: Time.current,
                         tax_rate: tax_rate,
-                        total_price: grand_total
+                        total_price: grand_total,
+                        gst_amount: gst,
+                        pst_amount: pst,
+                        hst_amount: hst
                         )
 
                         @products.each do |product|
@@ -136,7 +144,11 @@ class CartsController < ApplicationController
                             subtotal += product.price * quantity
                         end
 
-                        tax_rate = @customer.province.tax
+                        gst = @customer.province.gst
+                        pst = @customer.province.pst
+                        hst = @customer.province.hst
+
+                        tax_rate = gst + pst + hst 
                         grand_total = subtotal + (subtotal * tax_rate)
 
                         @order = Order.create!(
@@ -144,7 +156,10 @@ class CartsController < ApplicationController
                         address: @address,
                         order_date: Time.current,
                         tax_rate: tax_rate,
-                        total_price: grand_total
+                        total_price: grand_total,
+                        gst_amount: gst,
+                        pst_amount: pst,
+                        hst_amount: hst
                         )
 
                         @products.each do |product|
@@ -182,7 +197,7 @@ class CartsController < ApplicationController
         end
 
         province = @customer.province
-        @tax = province&.tax
+        @tax = @order.gst_amount + @order.pst_amount + @order.hst_amount
         @tax_amount = @total * @tax
         @grand_total = @total + @tax_amount
     end

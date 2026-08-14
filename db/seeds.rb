@@ -77,21 +77,49 @@
 #   p.content = 'Get in touch with us via email@example.com...'
 # end
 
-provinces = [
-    { name: "Alberta", tax: 0.050 },
-    { name: "British Columbia", tax: 0.120 },
-    { name: "Manitoba", tax: 0.120 },
-    { name: "New Brunswick", tax: 0.150 },
-    { name: "Newfoundland and Labrador", tax: 0.150 },
-    { name: "Nova Scotia", tax: 0.150 },
-    { name: "Ontario", tax: 0.130 },
-    { name: "Prince Edward Island", tax: 0.150 },
-    { name: "Quebec", tax: 0.14975 },
-    { name: "Saskatchewan", tax: 0.110 }
+# provinces = [
+#     { name: "Alberta", tax: 0.050 },
+#     { name: "British Columbia", tax: 0.120 },
+#     { name: "Manitoba", tax: 0.120 },
+#     { name: "New Brunswick", tax: 0.150 },
+#     { name: "Newfoundland and Labrador", tax: 0.150 },
+#     { name: "Nova Scotia", tax: 0.150 },
+#     { name: "Ontario", tax: 0.130 },
+#     { name: "Prince Edward Island", tax: 0.150 },
+#     { name: "Quebec", tax: 0.14975 },
+#     { name: "Saskatchewan", tax: 0.110 }
+# ]
+
+# provinces.each do |province|
+#     Province.find_or_create_by!(name: province[:name]) do |p|
+#         p.tax = province[:tax]
+#     end
+# end
+
+# db/seeds.rb
+provinces_data = [
+  { name: "Alberta",                   code: "AB", gst: 0.05, pst: 0.00, hst: 0.00, tax: 0.05 },
+  { name: "British Columbia",          code: "BC", gst: 0.05, pst: 0.07, hst: 0.00, tax: 0.12 },
+  { name: "Manitoba",                  code: "MB", gst: 0.05, pst: 0.07, hst: 0.00, tax: 0.12 },
+  { name: "New Brunswick",             code: "NB", gst: 0.00, pst: 0.00, hst: 0.15, tax: 0.15 },
+  { name: "New Newfoundland & Lab.",   code: "NL", gst: 0.00, pst: 0.00, hst: 0.15, tax: 0.15 },
+  { name: "Northwest Territories",     code: "NT", gst: 0.05, pst: 0.00, hst: 0.00, tax: 0.05 },
+  { name: "Nova Scotia",               code: "NS", gst: 0.00, pst: 0.00, hst: 0.14, tax: 0.14 },
+  { name: "Nunavut",                   code: "NU", gst: 0.05, pst: 0.00, hst: 0.00, tax: 0.05 },
+  { name: "Ontario",                   code: "ON", gst: 0.00, pst: 0.00, hst: 0.13, tax: 0.13 },
+  { name: "Prince Edward Island",      code: "PE", gst: 0.00, pst: 0.00, hst: 0.15, tax: 0.15 },
+  { name: "Quebec",                    code: "QC", gst: 0.05, pst: 0.09975, hst: 0.00, tax: 0.14975 },
+  { name: "Saskatchewan",              code: "SK", gst: 0.05, pst: 0.06, hst: 0.00, tax: 0.11 },
+  { name: "Yukon",                     code: "YT", gst: 0.05, pst: 0.00, hst: 0.00, tax: 0.05 }
 ]
 
-provinces.each do |province|
-    Province.find_or_create_by!(name: province[:name]) do |p|
-        p.tax = province[:tax]
-    end
+provinces_data.each do |data|
+  province = Province.find_or_initialize_by(name: data[:name])
+  province.update!(
+    gst: data[:gst],
+    pst: data[:pst],
+    hst: data[:hst],
+    tax: data[:tax]
+  )
 end
+
