@@ -85,7 +85,7 @@ class CartsController < ApplicationController
                         pst = @customer.province.pst
                         hst = @customer.province.hst
 
-                        tax_rate = gst + pst + hst 
+                        tax_rate = gst + pst + hst
                         grand_total = subtotal + (subtotal * tax_rate)
 
                         @order = Order.create!(
@@ -148,7 +148,7 @@ class CartsController < ApplicationController
                         pst = @customer.province.pst
                         hst = @customer.province.hst
 
-                        tax_rate = gst + pst + hst 
+                        tax_rate = gst + pst + hst
                         grand_total = subtotal + (subtotal * tax_rate)
 
                         @order = Order.create!(

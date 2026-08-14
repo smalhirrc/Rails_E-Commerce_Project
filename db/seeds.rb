@@ -122,4 +122,3 @@ provinces_data.each do |data|
     tax: data[:tax]
   )
 end
-
